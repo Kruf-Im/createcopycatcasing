@@ -1,0 +1,7 @@
+{
+  "parent": "createcopycatcasing:block/encased_shaft/item",
+  "textures": {
+    "casing": "createcopycatcasing:block/copycat_casing",
+    "opening": "createcopycatcasing:block/copycat_gearbox"
+  }
+}
