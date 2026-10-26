@@ -4,6 +4,7 @@ import com.kruf.createcopycatcasing.client.CopycatModelProperties;
 import com.kruf.createcopycatcasing.copycat.CopycatMaterial;
 import com.kruf.createcopycatcasing.copycat.ICopycatMaterialBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.content.kinetics.simpleRelays.SimpleKineticBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -18,7 +19,7 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.Nullable;
 
-public class CopycatEncasedKineticBlockEntity extends KineticBlockEntity implements ICopycatMaterialBlockEntity {
+public class CopycatEncasedKineticBlockEntity extends SimpleKineticBlockEntity implements ICopycatMaterialBlockEntity {
     private CopycatMaterial copycat = new CopycatMaterial(this);
     public CopycatEncasedKineticBlockEntity(BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {
         super(typeIn, pos, state);
