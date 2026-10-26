@@ -36,13 +36,17 @@ public class BlockRegistry {
     }
     public static final BlockEntry<CopycatCasingBlock> COPYCAT_CASING = REGISTRATE
             .block("copycat_casing", CopycatCasingBlock::new)
-            .initialProperties(SharedProperties::softMetal)
-            .transform(axeOrPickaxe())
-            .properties(p -> p.mapColor(MapColor.COLOR_GRAY))
-            .properties(BlockBehaviour.Properties::noOcclusion)
-            .addLayer(() -> RenderType::cutoutMipped)
             .transform(CCCBuilderTransformers.casing(() -> CreateCopycatCasingSpriteShifts.COPYCAT_CASING))
-            .properties(p -> p.sound(SoundType.METAL))
+            .properties(p -> p
+                    .mapColor(MapColor.COLOR_GRAY)
+                    .sound(SoundType.METAL)
+                    .noOcclusion()
+                    .isViewBlocking((s, l, pos) -> false)
+                    .isSuffocating((s, l, pos) -> false)
+                    .isRedstoneConductor((s, l, pos) -> false)
+                    .isValidSpawn((s, l, pos, type) -> false))
+            .addLayer(() -> RenderType::cutoutMipped)
+            .transform(axeOrPickaxe())
             .tag(AllTags.AllBlockTags.COPYCAT_DENY.tag)
             .register();
     public static final BlockEntry<CopycatEncasedShaftBlock> COPYCAT_ENCASED_SHAFT = REGISTRATE
@@ -52,6 +56,7 @@ public class BlockRegistry {
             .properties(p -> p.mapColor(MapColor.COLOR_GRAY)
                     .noOcclusion()
                     .sound(SoundType.METAL))
+            .properties(BlockBehaviour.Properties::dynamicShape)
             .addLayer(() -> RenderType::cutoutMipped)
             .transform(EncasingRegistry.addVariantTo(AllBlocks.SHAFT))
             .transform(axeOrPickaxe())
@@ -64,22 +69,24 @@ public class BlockRegistry {
     public static final BlockEntry<CopycatEncasedCogwheelBlock> COPYCAT_ENCASED_COGWHEEL = REGISTRATE
             .block("copycat_encased_cogwheel",
                     p -> new CopycatEncasedCogwheelBlock(p, false, BlockRegistry.COPYCAT_CASING::get))
-            .properties(p -> p.mapColor(MapColor.COLOR_GRAY).sound(SoundType.METAL))
             .transform(CCCBuilderTransformers.encasedCogwheel("copycat", () -> CreateCopycatCasingSpriteShifts.COPYCAT_CASING))
+            .properties(p -> p.mapColor(MapColor.COLOR_GRAY)
+                    .sound(SoundType.METAL)
+                    .dynamicShape())
             .transform(EncasingRegistry.addVariantTo(AllBlocks.COGWHEEL))
-            .onRegister(CreateRegistrate.blockModel(() -> CopycatEncasedModel::new))   // ← added
+            .onRegister(CreateRegistrate.blockModel(() -> CopycatEncasedModel::new))
             .transform(axeOrPickaxe())
             .register();
 
     public static final BlockEntry<CopycatEncasedCogwheelBlock> COPYCAT_ENCASED_LARGE_COGWHEEL = REGISTRATE
             .block("copycat_encased_large_cogwheel",
                     p -> new CopycatEncasedCogwheelBlock(p, true, BlockRegistry.COPYCAT_CASING::get))
-            .initialProperties(SharedProperties::softMetal)
-            .properties(p -> p.mapColor(MapColor.COLOR_GRAY).noOcclusion().sound(SoundType.METAL))
-            .addLayer(() -> RenderType::cutoutMipped)
             .transform(CCCBuilderTransformers.encasedLargeCogwheel("copycat", () -> CreateCopycatCasingSpriteShifts.COPYCAT_CASING))
+            .properties(p -> p.mapColor(MapColor.COLOR_GRAY)
+                    .sound(SoundType.METAL)
+                    .dynamicShape())
             .transform(EncasingRegistry.addVariantTo(AllBlocks.LARGE_COGWHEEL))
-            .onRegister(CreateRegistrate.blockModel(() -> CopycatEncasedModel::new))   // ← added
+            .onRegister(CreateRegistrate.blockModel(() -> CopycatEncasedModel::new))
             .transform(axeOrPickaxe())
             .register();
     public static final BlockEntry<CopycatEncasedPipeBlock> COPYCAT_ENCASED_FLUID_PIPE = REGISTRATE
@@ -89,6 +96,7 @@ public class BlockRegistry {
             .properties(p -> p.noOcclusion()
                     .mapColor(MapColor.COLOR_GRAY))
             .properties(BlockBehaviour.Properties::noOcclusion)
+            .properties(BlockBehaviour.Properties::dynamicShape)
             .addLayer(() -> RenderType::cutoutMipped)
             .transform(axeOrPickaxe())
             .blockstate(BlockStateGen.encasedPipe())

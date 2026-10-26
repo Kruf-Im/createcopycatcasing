@@ -7,6 +7,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -37,10 +38,12 @@ public class CopycatMaterial {
         material = state;
         consumedItem = item.isEmpty() ? ItemStack.EMPTY : item.copyWithCount(1);
         owner.notifyUpdate();
+        updateLight();
     }
     public void set(BlockState state) {
         material = state;
         owner.notifyUpdate();
+        updateLight();
     }
     public void clear() {
         set(Blocks.AIR.defaultBlockState(), ItemStack.EMPTY);
@@ -94,6 +97,12 @@ public class CopycatMaterial {
                 ? ItemStack.parseOptional(regs, tag.getCompound("Item"))
                 : ItemStack.EMPTY;
         return prev != material;
+    }
+
+    private void updateLight() {
+        Level level = owner.getLevel();
+        if (level != null)
+            level.getLightEngine().checkBlock(owner.getBlockPos());
     }
 
 

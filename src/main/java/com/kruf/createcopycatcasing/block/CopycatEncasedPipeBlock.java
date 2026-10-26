@@ -95,5 +95,19 @@ public class CopycatEncasedPipeBlock extends EncasedPipeBlock implements ICopyca
                                      BlockState neighborState, Direction dir) {
         return copycatHidesNeighborFace(level, pos, neighborState, dir);
     }
+    @Override
+    protected int getLightBlock(BlockState state, BlockGetter level, BlockPos pos) {
+        return copycatLightBlock(level, pos);
+    }
+
+    @Override
+    protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
+        return copycatPropagatesSkylightDown(level, pos);
+    }
+
+    @Override
+    protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
+        return copycatShadeBrightness(level, pos);
+    }
 }
 

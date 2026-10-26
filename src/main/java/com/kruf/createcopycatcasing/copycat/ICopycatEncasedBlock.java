@@ -149,4 +149,20 @@ public interface ICopycatEncasedBlock {
     default BlockState getInnerRenderState(BlockState state) {
         return null;
     }
+    default int copycatLightBlock(BlockGetter level, BlockPos pos) {
+        CopycatMaterial cm = copycatAt(level, pos);
+        if (cm == null || !cm.has())
+            return 0;
+        return Math.min(cm.get().getLightBlock(level, pos), 1);
+    }
+
+    default boolean copycatPropagatesSkylightDown(BlockGetter level, BlockPos pos) {
+        CopycatMaterial cm = copycatAt(level, pos);
+        return cm == null || !cm.has() || cm.get().propagatesSkylightDown(level, pos);
+    }
+
+    default float copycatShadeBrightness(BlockGetter level, BlockPos pos) {
+        CopycatMaterial cm = copycatAt(level, pos);
+        return cm != null && cm.has() ? cm.get().getShadeBrightness(level, pos) : 1.0F;
+    }
 }

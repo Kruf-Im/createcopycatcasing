@@ -52,10 +52,10 @@ public class CopycatEncasedKineticBlockEntity extends SimpleKineticBlockEntity i
     @Override
     protected void read(CompoundTag tag, HolderLookup.Provider regs, boolean clientPacket) {
         super.read(tag, regs, clientPacket);
-        boolean changed = copycat.read(tag, regs);
-        if (changed && clientPacket && level != null) {
+        if (copycat.read(tag, regs) && clientPacket && level != null) {
             requestModelDataUpdate();
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 8); // re-render chunk
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 8);
+            level.getLightEngine().checkBlock(worldPosition);
         }
     }
 
