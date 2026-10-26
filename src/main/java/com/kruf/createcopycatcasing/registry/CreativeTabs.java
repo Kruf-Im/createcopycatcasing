@@ -13,11 +13,12 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class CreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TAB_REGISTER =
             net.neoforged.neoforge.registries.DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CreateCopycatCasing.MOD_ID);
+    public static final String MAIN_TAB_KEY = "creativetab." + CreateCopycatCasing.MOD_ID + ".main";
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB =
             TAB_REGISTER.register("main",
                     () -> CreativeModeTab.builder()
-                            .title(Component.translatable("creativetab.create_copycat_casing_tab"))
+                            .title(Component.translatable(MAIN_TAB_KEY))
                             .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
                             .icon(BlockRegistry.COPYCAT_CASING::asStack)
                             .displayItems((pParameters, pOutput) -> {
@@ -25,7 +26,9 @@ public class CreativeTabs {
                             })
                             .build());
 
-    public static void register(IEventBus eventBus){
+    public static void register(IEventBus eventBus)
+    {
         TAB_REGISTER.register(eventBus);
+        CreateCopycatCasing.REGISTRATE.addRawLang(MAIN_TAB_KEY, "Create: Copycat Casing");
     }
 }
