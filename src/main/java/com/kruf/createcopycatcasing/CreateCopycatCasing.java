@@ -1,5 +1,6 @@
 package com.kruf.createcopycatcasing;
 
+import com.kruf.createcopycatcasing.ponder.CCCPonderPlugin;
 import com.kruf.createcopycatcasing.registry.BlockEntityTypes;
 import com.kruf.createcopycatcasing.registry.BlockRegistry;
 import com.kruf.createcopycatcasing.registry.CreativeTabs;
@@ -7,7 +8,9 @@ import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipModifier;
+import com.tterrag.registrate.providers.ProviderType;
 import net.createmod.catnip.lang.FontHelper;
+import net.createmod.ponder.foundation.PonderIndex;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -45,6 +48,11 @@ public class CreateCopycatCasing {
         REGISTRATE.registerEventListeners(modEventBus);
 
         modEventBus.addListener(this::addCreative);
+
+        REGISTRATE.addDataGenerator(ProviderType.LANG, provider -> {
+            PonderIndex.addPlugin(new CCCPonderPlugin());
+            PonderIndex.getLangAccess().provideLang(MOD_ID, provider::add);
+        });
 
         CreativeTabs.register(modEventBus);
         BlockEntityTypes.register();

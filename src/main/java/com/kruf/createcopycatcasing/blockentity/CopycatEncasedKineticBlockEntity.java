@@ -57,6 +57,15 @@ public class CopycatEncasedKineticBlockEntity extends SimpleKineticBlockEntity i
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 8);
             level.getLightEngine().checkBlock(worldPosition);
         }
+        if (copycat.read(tag, regs) && level != null && level.isClientSide)
+            redraw();
+    }
+    private void redraw() {
+        requestModelDataUpdate();
+        if (!isVirtual()) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 8);
+            level.getLightEngine().checkBlock(worldPosition);
+        }
     }
 
 }

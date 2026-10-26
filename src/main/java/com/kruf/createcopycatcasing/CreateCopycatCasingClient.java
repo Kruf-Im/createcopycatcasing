@@ -1,5 +1,7 @@
 package com.kruf.createcopycatcasing;
 
+import com.kruf.createcopycatcasing.ponder.CCCPonderPlugin;
+import net.createmod.ponder.foundation.PonderIndex;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -23,6 +25,6 @@ public class CreateCopycatCasingClient {
 
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
-
+        PonderIndex.addPlugin(new CCCPonderPlugin());
     }
 }

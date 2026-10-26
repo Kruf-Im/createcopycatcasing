@@ -34,6 +34,15 @@ public class CopycatEncasedPipeBlockEntity extends FluidPipeBlockEntity implemen
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 8);
             level.getLightEngine().checkBlock(worldPosition);
         }
+        if (copycat.read(tag, regs) && level != null && level.isClientSide)
+            redraw();
+    }
+    private void redraw() {
+        requestModelDataUpdate();
+        if (!isVirtual()) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 8);
+            level.getLightEngine().checkBlock(worldPosition);
+        }
     }
     @Override
     public ModelData getModelData() {

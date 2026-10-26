@@ -149,7 +149,6 @@ public class CopycatEncasedModel extends BakedModelWrapperWithData {
         return (occluded & (1 << end.ordinal())) != 0;
     }
 
-    // Copy UVs from the material quad by vertex position on the face plane
     private static BakedQuad retextureFrom(BakedQuad quad, BakedQuad src) {
         int[] dst = quad.getVertices().clone();
         int[] s = src.getVertices();
@@ -220,17 +219,13 @@ public class CopycatEncasedModel extends BakedModelWrapperWithData {
             builder.with(CopycatModelProperties.INNER_DATA, innerModel.getModelData(level, pos, inner, ModelData.EMPTY));
         }
         BlockState material = blockEntityData.get(CopycatModelProperties.MATERIAL);
+        if (material == null && level.getBlockEntity(pos) instanceof ICopycatMaterialBlockEntity be)
+            material = be.getCopycatMaterial().get();
 
-        // Empty casing: only the mask of ends hidden by neighbouring empty shafts
-        if (material == null || material.isAir())
-            return builder.with(CopycatModelProperties.OCCLUDED_FACES, emptyOcclusion(level, pos, state));
-
-        // The builder starts empty, so the material must be copied in
         builder.with(CopycatModelProperties.MATERIAL, material);
 
         CopycatAppearanceGetter getter = new CopycatAppearanceGetter(level);
 
-        // Faces hidden by neighbours (glass next to glass, stone next to stone, etc.)
         int occluded = 0;
         for (Direction d : Direction.values())
             if (!Block.shouldRenderFace(material, getter, pos, d, pos.relative(d)))
