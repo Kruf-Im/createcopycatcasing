@@ -34,13 +34,6 @@ import static com.simibubi.create.foundation.data.TagGen.axeOrPickaxe;
 
 @SuppressWarnings("removal")
 public class CCCBuilderTransformers {
-    public static <B extends Block, P> NonNullUnaryOperator<BlockBuilder<B, P>> copycat() {
-        throw new AssertionError("Shouldn't appear");
-    }
-
-    public static <B extends Block, P> NonNullUnaryOperator<BlockBuilder<B, P>> multiCopycat() {
-        throw new AssertionError("Shouldn't appear");
-    }
 
     public static <B extends CasingBlock> NonNullUnaryOperator<BlockBuilder<B, CreateRegistrate>> casing(
             Supplier<CTSpriteShiftEntry> ct) {
@@ -118,17 +111,4 @@ public class CCCBuilderTransformers {
                 .transform(CCCStress.setNoImpact())
                 .loot((p, lb) -> p.dropOther(lb, drop.get()));
     }
-    private static ResourceLocation getOpening(String casing){
-        ResourceLocation texture;
-
-        if (casing.equals("andesite"))
-            texture = Create.asResource("block/gearbox");
-        else if (casing.equals("brass"))
-            texture = Create.asResource("block/brass_gearbox");
-        else
-            texture = CreateCopycatCasing.asResource("block/" + casing + "_gearbox");
-
-        return texture;
-    }
-
 }
