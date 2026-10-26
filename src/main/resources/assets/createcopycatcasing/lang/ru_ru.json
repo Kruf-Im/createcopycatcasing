@@ -1,5 +1,8 @@
 {
   "block.createcopycatcasing.copycat_casing": "Заполняемый корпус",
   "block.createcopycatcasing.copycat_encased_shaft": "Вал в заполняемом корпусе",
+  "block.createcopycatcasing.copycat_encased_cogwheel": "Шестерня в заполняемом корпусе",
+  "block.createcopycatcasing.copycat_encased_large_cogwheel": "Большая шестерня в заполняемом корпусе",
+  "block.createcopycatcasing.copycat_encased_fluid_pipe": "Жидкостная труба в заполняемом корпусе",
   "creativetab.createcopycatcasing.main": "Create: Copycat Casing"
 }

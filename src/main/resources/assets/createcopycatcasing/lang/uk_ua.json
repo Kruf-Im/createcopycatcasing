@@ -1,5 +1,8 @@
 {
   "block.createcopycatcasing.copycat_casing": "Імітаційний корпус",
   "block.createcopycatcasing.copycat_encased_shaft": "Облицьований імітаційним корпусом вал",
+  "block.createcopycatcasing.copycat_encased_cogwheel": "Облицьована імітаційним корпусом шестірня",
+  "block.createcopycatcasing.copycat_encased_large_cogwheel": "Облицьована імітаційним корпусом велика шестірня",
+  "block.createcopycatcasing.copycat_encased_fluid_pipe": "Облицьована імітаційним корпусом рідинна труба",
   "creativetab.createcopycatcasing.main": "Create: Copycat Casing"
 }
