@@ -22,6 +22,11 @@ public class CopycatColors {
             if (mat.isAir())
                 return -1;
             return Minecraft.getInstance().getBlockColors().getColor(mat, level, pos, tintIndex);
-        }, BlockRegistry.COPYCAT_ENCASED_SHAFT.get());
+        },
+                BlockRegistry.COPYCAT_ENCASED_SHAFT.get(),
+                BlockRegistry.COPYCAT_ENCASED_COGWHEEL.get(),
+                BlockRegistry.COPYCAT_ENCASED_LARGE_COGWHEEL.get(),
+                BlockRegistry.COPYCAT_ENCASED_FLUID_PIPE.get());
+
     }
 }
