@@ -4,5 +4,21 @@
   "block.createcopycatcasing.copycat_encased_cogwheel": "Шестерня в заполняемом корпусе",
   "block.createcopycatcasing.copycat_encased_large_cogwheel": "Большая шестерня в заполняемом корпусе",
   "block.createcopycatcasing.copycat_encased_fluid_pipe": "Жидкостная труба в заполняемом корпусе",
+  "createcopycatcasing.ponder.cogwheel_copycat_casing.header": "Обрамление шестерён в заполняемый корпус",
+  "createcopycatcasing.ponder.cogwheel_copycat_casing.text_1": "Шестерни можно обрамить в заполняемый корпус",
+  "createcopycatcasing.ponder.cogwheel_copycat_casing.text_2": "Щёлкните ПКМ блоком в руке, чтобы корпус принял вид этого блока",
+  "createcopycatcasing.ponder.cogwheel_copycat_casing.text_3": "Механизмы, добавленные после обрамления в корпус, не будут соединяться с выходами вала",
+  "createcopycatcasing.ponder.cogwheel_copycat_casing.text_4": "Гаечным ключом можно переключать соединения",
+
+  "createcopycatcasing.ponder.fluid_pipe_copycat_casing.header": "Обрамление жидкостных труб в заполняемый корпус",
+  "createcopycatcasing.ponder.fluid_pipe_copycat_casing.text_1": "Жидкостные трубы можно обрамить в заполняемый корпус",
+  "createcopycatcasing.ponder.fluid_pipe_copycat_casing.text_2": "Трубы в корпусе сохраняют свои соединения, даже если соседнюю трубу убрать",
+  "createcopycatcasing.ponder.fluid_pipe_copycat_casing.text_3": "Щёлкните ПКМ блоком в руке, чтобы корпус принял вид этого блока",
+  "createcopycatcasing.ponder.fluid_pipe_copycat_casing.text_4": "Так трубы можно прокладывать сквозь ваши постройки, не портя их вид",
+
+  "createcopycatcasing.ponder.shaft_copycat_casing.header": "Обрамление валов в заполняемый корпус",
+  "createcopycatcasing.ponder.shaft_copycat_casing.text_1": "Валы можно обрамить в заполняемый корпус",
+  "createcopycatcasing.ponder.shaft_copycat_casing.text_2": "Щёлкните ПКМ блоком в руке, чтобы корпус принял вид этого блока и вписался в ваши постройки",
+
   "creativetab.createcopycatcasing.main": "Create: Copycat Casing"
 }

@@ -4,5 +4,18 @@
   "block.createcopycatcasing.copycat_encased_cogwheel": "Облицьована імітаційним корпусом шестірня",
   "block.createcopycatcasing.copycat_encased_large_cogwheel": "Облицьована імітаційним корпусом велика шестірня",
   "block.createcopycatcasing.copycat_encased_fluid_pipe": "Облицьована імітаційним корпусом рідинна труба",
+  "createcopycatcasing.ponder.cogwheel_copycat_casing.header": "Облицювання шестерень імітаційним корпусом",
+  "createcopycatcasing.ponder.cogwheel_copycat_casing.text_1": "Для оздоблення шестерень можна використовувати імітаційний корпус",
+  "createcopycatcasing.ponder.cogwheel_copycat_casing.text_2": "Клацніть ПКМ з блоком в руках, щоб надати корпусу матеріал цього блоку",
+  "createcopycatcasing.ponder.cogwheel_copycat_casing.text_3": "Прилади, приєднані після облицювання, не під’єднуватимуться до виходів вала",
+  "createcopycatcasing.ponder.cogwheel_copycat_casing.text_4": "Для перемикання з’єднань можна використовувати гайковий ключ",
+  "createcopycatcasing.ponder.fluid_pipe_copycat_casing.header": "Облицювання рідинних труб імітаційним корпусом",
+  "createcopycatcasing.ponder.fluid_pipe_copycat_casing.text_1": "Для оздоблення рідинних труб можна використовувати імітаційний корпус",
+  "createcopycatcasing.ponder.fluid_pipe_copycat_casing.text_2": "Облицьовані рідинні труби зберігають свої з'єднання, навіть після додавання чи вилучення будь-яких сусідніх труб",
+  "createcopycatcasing.ponder.fluid_pipe_copycat_casing.text_3": "Клацніть ПКМ з блоком в руках, щоб надати корпусу матеріал цього блоку",
+  "createcopycatcasing.ponder.fluid_pipe_copycat_casing.text_4": "Так труби можна прокладати крізь ваші будівлі, не псуючи їхнього вигляду",
+  "createcopycatcasing.ponder.shaft_copycat_casing.header": "Облицювання валів імітаційним корпусом",
+  "createcopycatcasing.ponder.shaft_copycat_casing.text_1": "Для оздоблення валів можна використовувати імітаційний корпус",
+  "createcopycatcasing.ponder.shaft_copycat_casing.text_2": "Клацніть ПКМ з блоком в руках, щоб надати корпусу матеріал цього блоку. Тепер він ідеально впишеться в ваші структури!",
   "creativetab.createcopycatcasing.main": "Create: Copycat Casing"
 }
