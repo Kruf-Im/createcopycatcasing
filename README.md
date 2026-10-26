@@ -1,25 +1,21 @@
+<h1 align="center">Create: Copycat Casing</h1>
 
-Installation information
-=======
+<p align="center">
+  </a>
+</p>
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+<p align="center">
+  <b>Unleash your functional building potential.</b><br>
+</p>
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+The mod adds a new casing block, made by applying zinc to stripped logs. Encase shafts, cogwheels, large cogwheels and fluid pipes with the Copycat Casing. Right-click an encased block with a full block to give the casing its look.
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+## Bug reports
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+Found a bug? Please [open an issue](https://github.com/KruF-Im/createcopycatcasing/issues) and include your versions and a log (uploaded to [mclo.gs](https://mclo.gs)).
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+## License and credits
+
+This mod is licensed under the [MIT License](https://github.com/KruF-Im/createcopycatcasing/blob/main/LICENSE.txt).
+
+Made as an addon for [Create](https://github.com/Creators-of-Create/Create) by the Creators of Create (MIT). Some textures are derived from Create's assets.
