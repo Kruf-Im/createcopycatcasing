@@ -1,6 +1,7 @@
 package com.kruf.createcopycatcasing.registry;
 
 import com.kruf.createcopycatcasing.blockentity.CopycatEncasedKineticBlockEntity;
+import com.kruf.createcopycatcasing.blockentity.CopycatEncasedPipeBlockEntity;
 import com.simibubi.create.content.kinetics.base.ShaftRenderer;
 import com.simibubi.create.content.kinetics.base.SingleAxisRotatingVisual;
 import com.simibubi.create.content.kinetics.simpleRelays.encased.EncasedCogRenderer;
@@ -28,10 +29,10 @@ public class BlockEntityTypes {
             .validBlocks(BlockRegistry.COPYCAT_ENCASED_LARGE_COGWHEEL)
             .renderer(()-> EncasedCogRenderer::large)
             .register();
-//    public static final BlockEntityEntry<FluidPipeBlockEntity> ENCASED_FLUID_PIPE = REGISTRATE
-//            .blockEntity("encased_fluid_pipe", FluidPipeBlockEntity::new)
-//            .validBlocks(BlockRegistry.COPYCAT_ENCASED_FLUID_PIPE)
-//            .register();
+    public static final BlockEntityEntry<CopycatEncasedPipeBlockEntity> COPYCAT_ENCASED_FLUID_PIPE = REGISTRATE
+            .blockEntity("encased_fluid_pipe", CopycatEncasedPipeBlockEntity::new)
+            .validBlocks(BlockRegistry.COPYCAT_ENCASED_FLUID_PIPE)
+            .register();
     public static void register(){
     }
 }

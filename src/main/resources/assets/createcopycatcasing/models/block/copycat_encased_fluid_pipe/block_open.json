@@ -1,15 +1,25 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "createcopycatcasing:block/copycat_encased_pipe",
-    "particle": "createcopycatcasing:block/copycat_encased_pipe"
+    "casing": "createcopycatcasing:block/copycat_casing",
+    "opening": "createcopycatcasing:block/copycat_encased_pipe_opening",
+    "particle": "createcopycatcasing:block/copycat_casing"
   },
   "elements": [
     {
+      "name": "Plate",
       "from": [0, 0, 15],
       "to": [16, 16, 16],
       "faces": {
-        "south": {"uv": [0, 0, 16, 16], "texture": "#0"}
+        "south": {"uv": [0, 0, 16, 16], "texture": "#casing"}
+      }
+    },
+    {
+      "name": "Opening",
+      "from": [0, 0, 15],
+      "to": [16, 16, 16],
+      "faces": {
+        "south": {"uv": [0, 0, 16, 16], "texture": "#opening"}
       }
     }
   ]

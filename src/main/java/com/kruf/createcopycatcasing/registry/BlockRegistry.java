@@ -3,16 +3,19 @@ package com.kruf.createcopycatcasing.registry;
 import com.kruf.createcopycatcasing.CreateCopycatCasingSpriteShifts;
 import com.kruf.createcopycatcasing.block.CopycatCasingBlock;
 /*import com.kruf.createcopycatcasing.block.CopycatEncasedCogwheelBlock;
-import com.kruf.createcopycatcasing.block.CCCEncasedPipeBlock;*/
+import com.kruf.createcopycatcasing.block.CopycatEncasedPipeBlock;*/
 //import com.kruf.createcopycatcasing.block.CopycatEncasedCogwheelBlock;
 import com.kruf.createcopycatcasing.block.CopycatEncasedCogwheelBlock;
+import com.kruf.createcopycatcasing.block.CopycatEncasedPipeBlock;
 import com.kruf.createcopycatcasing.block.CopycatEncasedShaftBlock;
 import com.kruf.createcopycatcasing.client.CopycatEncasedModel;
 import com.kruf.createcopycatcasing.util.CCCBuilderTransformers;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllSpriteShifts;
 import com.simibubi.create.AllTags;
+import com.simibubi.create.content.decoration.encasing.EncasedCTBehaviour;
 import com.simibubi.create.content.decoration.encasing.EncasingRegistry;
+import com.simibubi.create.content.fluids.PipeAttachmentModel;
 import com.simibubi.create.content.kinetics.simpleRelays.encased.EncasedCogCTBehaviour;
 import com.simibubi.create.foundation.data.*;
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -79,25 +82,25 @@ public class BlockRegistry {
             .onRegister(CreateRegistrate.blockModel(() -> CopycatEncasedModel::new))   // ← added
             .transform(axeOrPickaxe())
             .register();
-//    public static final BlockEntry<CCCEncasedPipeBlock> COPYCAT_ENCASED_FLUID_PIPE = REGISTRATE
-//            .block("copycat_encased_fluid_pipe",
-//                    p -> new CCCEncasedPipeBlock(p, BlockRegistry.COPYCAT_CASING::get))
-//            .initialProperties(SharedProperties::copperMetal)
-//            .properties(p -> p.noOcclusion()
-//                    .mapColor(MapColor.COLOR_GRAY))
-//            .properties(BlockBehaviour.Properties::noOcclusion)
-//            .addLayer(() -> RenderType::cutoutMipped)
-//            .transform(pickaxeOnly())
-//            .blockstate(BlockStateGen.encasedPipe())
-//            .onRegister(CreateRegistrate.connectedTextures(() -> new EncasedCTBehaviour(CreateCopycatCasingSpriteShifts.COPYCAT_CASING)))
+    public static final BlockEntry<CopycatEncasedPipeBlock> COPYCAT_ENCASED_FLUID_PIPE = REGISTRATE
+            .block("copycat_encased_fluid_pipe",
+                    p -> new CopycatEncasedPipeBlock(p, BlockRegistry.COPYCAT_CASING::get))
+            .initialProperties(SharedProperties::copperMetal)
+            .properties(p -> p.noOcclusion()
+                    .mapColor(MapColor.COLOR_GRAY))
+            .properties(BlockBehaviour.Properties::noOcclusion)
+            .addLayer(() -> RenderType::cutoutMipped)
+            .transform(axeOrPickaxe())
+            .blockstate(BlockStateGen.encasedPipe())
 //            .onRegister(CreateRegistrate.casingConnectivity(
 //                    (block, casingConnectivity) -> casingConnectivity.make(block, CreateCopycatCasingSpriteShifts.COPYCAT_CASING,
-//                            (state, direction) -> !state.getValue(CCCEncasedPipeBlock.FACING_TO_PROPERTY_MAP.get(direction)))))
-//            .onRegister(CreateRegistrate.blockModel(() -> PipeAttachmentModel::withAO))
-//            .loot((lootTables, pipeBlock) -> lootTables.dropOther(pipeBlock, AllBlocks.FLUID_PIPE.get()))
-//            .properties(p -> p.sound(SoundType.METAL))
-//            .transform(EncasingRegistry.addVariantTo(AllBlocks.FLUID_PIPE))
-//            .register();
+//                            (state, direction) -> !state.getValue(CopycatEncasedPipeBlock.FACING_TO_PROPERTY_MAP.get(direction)))))
+            .onRegister(CreateRegistrate.blockModel(() -> PipeAttachmentModel::withAO))
+            .onRegister(CreateRegistrate.blockModel(() -> CopycatEncasedModel::new))
+            .loot((lootTables, pipeBlock) -> lootTables.dropOther(pipeBlock, AllBlocks.FLUID_PIPE.get()))
+            .properties(p -> p.sound(SoundType.METAL))
+            .transform(EncasingRegistry.addVariantTo(AllBlocks.FLUID_PIPE))
+            .register();
 
     public static void register(){
 

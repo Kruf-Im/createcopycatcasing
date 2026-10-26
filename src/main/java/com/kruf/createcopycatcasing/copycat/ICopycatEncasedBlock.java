@@ -145,4 +145,8 @@ public interface ICopycatEncasedBlock {
         BlockState mat = getMaterial(level, pos);
         return !mat.isAir() && mat.skipRendering(neighborState, dir);
     }
+    @Nullable
+    default BlockState getInnerRenderState(BlockState state) {
+        return null;
+    }
 }

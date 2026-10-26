@@ -1,7 +1,13 @@
 package com.kruf.createcopycatcasing.client;
 
 import com.kruf.createcopycatcasing.blockentity.CopycatEncasedKineticBlockEntity;
+import com.kruf.createcopycatcasing.copycat.ICopycatEncasedBlock;
 import com.kruf.createcopycatcasing.copycat.ICopycatMaterialBlockEntity;
+import com.simibubi.create.AllPartialModels;
+import com.simibubi.create.content.fluids.FluidTransportBehaviour;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.simibubi.create.foundation.model.BakedModelWrapperWithData;
+import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -24,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class CopycatEncasedModel extends BakedModelWrapper<BakedModel> {
+public class CopycatEncasedModel extends BakedModelWrapperWithData {
     private static final Set<ResourceLocation> CASING_TEXTURES = Set.of(
             ResourceLocation.fromNamespaceAndPath("createcopycatcasing", "block/copycat_casing"));
 
@@ -43,13 +49,11 @@ public class CopycatEncasedModel extends BakedModelWrapper<BakedModel> {
         BlockState material = extraData.get(CopycatModelProperties.MATERIAL);
 
         if (material == null || material.isAir()) {
-            List<BakedQuad> base = super.getQuads(state, side, rand, extraData, renderType);
-            if (occluded == 0 || shaftAxis == null)
-                return base;
-            List<BakedQuad> out = new ArrayList<>(base.size());
-            for (BakedQuad q : base)
-                if (!isOnOccludedEnd(q, shaftAxis, occluded))
+            List<BakedQuad> out = new ArrayList<>();
+            for (BakedQuad q : super.getQuads(state, side, rand, extraData, renderType))
+                if (shaftAxis == null || occluded == 0 || !isOnOccludedEnd(q, shaftAxis, occluded))
                     out.add(q);
+            addInnerQuads(out, state, side, rand, extraData);
             return out;
         }
 
@@ -64,9 +68,10 @@ public class CopycatEncasedModel extends BakedModelWrapper<BakedModel> {
         if (!drawMaterial && !drawOwn)
             return List.of();
 
-        List<BakedQuad> quads = super.getQuads(state, side, rand, extraData, renderType);
+        List<BakedQuad> quads = super.getQuads(state, side, rand, extraData, null);
         List<BakedQuad> result = new ArrayList<>(quads.size());
         boolean seeThrough = !material.canOcclude();
+        boolean materialTranslucent = materialTypes.contains(RenderType.translucent());
 
         for (BakedQuad quad : quads) {
             boolean boundary = isOnBoundary(quad);
@@ -76,7 +81,7 @@ public class CopycatEncasedModel extends BakedModelWrapper<BakedModel> {
                 continue;
 
             boolean isEndFace = shaftAxis != null && quad.getDirection().getAxis() == shaftAxis;
-            if (seeThrough && !isEndFace && (!isCasing || !boundary))
+            if (seeThrough && !isEndFace && !boundary)
                 continue;
 
             if (seeThrough && isEndFace && isOnOccludedEnd(quad, shaftAxis, occluded))
@@ -90,10 +95,14 @@ public class CopycatEncasedModel extends BakedModelWrapper<BakedModel> {
                 else
                     for (BakedQuad src : srcs)
                         result.add(retextureFrom(quad, src));
-            } else if (drawOwn) {
-                result.add(quad);
+            } else {
+                boolean inMaterialLayer = seeThrough && boundary && !materialTranslucent;
+                if (inMaterialLayer ? drawMaterial : drawOwn)
+                    result.add(quad);
             }
         }
+        if (seeThrough && drawOwn)
+            addInnerQuads(result, state, side, rand, extraData);
         return result;
     }
 
@@ -203,16 +212,25 @@ public class CopycatEncasedModel extends BakedModelWrapper<BakedModel> {
     }
 
     @Override
-    public ModelData getModelData(BlockAndTintGetter level, BlockPos pos, BlockState state, ModelData modelData) {
-        BlockState material = modelData.get(CopycatModelProperties.MATERIAL);
+    protected ModelData.Builder gatherModelData(ModelData.Builder builder, BlockAndTintGetter level, BlockPos pos,
+                                                BlockState state, ModelData blockEntityData) {
+        BlockState inner = state.getBlock() instanceof ICopycatEncasedBlock b ? b.getInnerRenderState(state) : null;
+        if (inner != null) {
+            BakedModel innerModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(inner);
+            builder.with(CopycatModelProperties.INNER_DATA, innerModel.getModelData(level, pos, inner, ModelData.EMPTY));
+        }
+        BlockState material = blockEntityData.get(CopycatModelProperties.MATERIAL);
 
+        // Empty casing: only the mask of ends hidden by neighbouring empty shafts
         if (material == null || material.isAir())
-            return super.getModelData(level, pos, state, modelData).derive()
-                    .with(CopycatModelProperties.OCCLUDED_FACES, emptyOcclusion(level, pos, state))
-                    .build();
+            return builder.with(CopycatModelProperties.OCCLUDED_FACES, emptyOcclusion(level, pos, state));
+
+        // The builder starts empty, so the material must be copied in
+        builder.with(CopycatModelProperties.MATERIAL, material);
 
         CopycatAppearanceGetter getter = new CopycatAppearanceGetter(level);
 
+        // Faces hidden by neighbours (glass next to glass, stone next to stone, etc.)
         int occluded = 0;
         for (Direction d : Direction.values())
             if (!Block.shouldRenderFace(material, getter, pos, d, pos.relative(d)))
@@ -221,10 +239,9 @@ public class CopycatEncasedModel extends BakedModelWrapper<BakedModel> {
         BakedModel materialModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(material);
         ModelData wrapped = materialModel.getModelData(getter, pos, material, ModelData.EMPTY);
 
-        return modelData.derive()
+        return builder
                 .with(CopycatModelProperties.WRAPPED_DATA, wrapped)
-                .with(CopycatModelProperties.OCCLUDED_FACES, occluded)
-                .build();
+                .with(CopycatModelProperties.OCCLUDED_FACES, occluded);
     }
 
     private static int emptyOcclusion(BlockAndTintGetter level, BlockPos pos, BlockState state) {
@@ -244,5 +261,30 @@ public class CopycatEncasedModel extends BakedModelWrapper<BakedModel> {
                 mask |= 1 << d.ordinal();
         }
         return mask;
+    }
+    private static void addInnerQuads(List<BakedQuad> out, @Nullable BlockState state, @Nullable Direction side,
+                                      RandomSource rand, ModelData extraData) {
+        if (side != null)
+            return;
+        if (state == null || !(state.getBlock() instanceof ICopycatEncasedBlock block))
+            return;
+        BlockState inner = block.getInnerRenderState(state);
+        if (inner == null)
+            return;
+
+        ModelData innerData = extraData.get(CopycatModelProperties.INNER_DATA);
+        if (innerData == null)
+            innerData = ModelData.EMPTY;
+
+        BakedModel innerModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(inner);
+        addInner(out, innerModel.getQuads(inner, null, rand, innerData, null));
+        for (Direction d : Direction.values())
+            addInner(out, innerModel.getQuads(inner, d, rand, innerData, null));
+    }
+
+    private static void addInner(List<BakedQuad> out, List<BakedQuad> quads) {
+        for (BakedQuad q : quads)
+            if (!isOnBoundary(q))
+                out.add(q);
     }
 }
