@@ -1,6 +1,7 @@
 package com.kruf.createcopycatcasing.client;
 
 import com.kruf.createcopycatcasing.blockentity.CopycatEncasedKineticBlockEntity;
+import com.kruf.createcopycatcasing.copycat.ICopycatMaterialBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -22,11 +23,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CopycatEncasedShaftModel extends BakedModelWrapper<BakedModel> {
+public class CopycatEncasedModel extends BakedModelWrapper<BakedModel> {
     private static final ResourceLocation CASING_TEXTURE =
             ResourceLocation.fromNamespaceAndPath("createcopycatcasing", "block/copycat_casing");
 
-    public CopycatEncasedShaftModel(BakedModel originalModel) {
+    public CopycatEncasedModel(BakedModel originalModel) {
         super(originalModel);
     }
 
@@ -237,7 +238,7 @@ public class CopycatEncasedShaftModel extends BakedModelWrapper<BakedModel> {
             BlockState ns = level.getBlockState(n);
             boolean sameEmptyShaft = ns.getBlock() == state.getBlock()
                     && ns.getValue(BlockStateProperties.AXIS) == axis
-                    && !(level.getBlockEntity(n) instanceof CopycatEncasedKineticBlockEntity be && be.hasMaterial());
+                    && !(level.getBlockEntity(n) instanceof ICopycatMaterialBlockEntity be && be.getCopycatMaterial().has());
             if (sameEmptyShaft)
                 mask |= 1 << d.ordinal();
         }

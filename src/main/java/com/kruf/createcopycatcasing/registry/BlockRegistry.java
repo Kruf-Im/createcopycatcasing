@@ -6,17 +6,14 @@ import com.kruf.createcopycatcasing.block.CopycatCasingBlock;
 import com.kruf.createcopycatcasing.block.CCCEncasedPipeBlock;*/
 //import com.kruf.createcopycatcasing.block.CopycatEncasedCogwheelBlock;
 import com.kruf.createcopycatcasing.block.CopycatEncasedShaftBlock;
-import com.kruf.createcopycatcasing.client.CopycatEncasedShaftModel;
+import com.kruf.createcopycatcasing.client.CopycatEncasedModel;
 import com.kruf.createcopycatcasing.util.CCCBuilderTransformers;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.decoration.encasing.EncasingRegistry;
 import com.simibubi.create.foundation.data.*;
-import com.simibubi.create.foundation.data.recipe.CommonMetal;
-import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -54,7 +51,7 @@ public class BlockRegistry {
             .blockstate((c,p) -> BlockStateGen.axisBlock(c,p,
                     s -> p.models().getExistingFile(p.modLoc("block/copycat_encased_shaft/block_copycat")), true))
             .loot((lt,b) -> lt.dropOther(b, AllBlocks.SHAFT.get()))
-            .onRegister(CreateRegistrate.blockModel(() -> CopycatEncasedShaftModel::new))
+            .onRegister(CreateRegistrate.blockModel(() -> CopycatEncasedModel::new))
             .tag(AllTags.AllBlockTags.COPYCAT_DENY.tag)
             .register();
 //    public static final BlockEntry<CopycatEncasedCogwheelBlock> COPYCAT_ENCASED_COGWHEEL = REGISTRATE

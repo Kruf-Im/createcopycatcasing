@@ -1,6 +1,7 @@
 package com.kruf.createcopycatcasing.client;
 
 import com.kruf.createcopycatcasing.block.CopycatEncasedShaftBlock;
+import com.kruf.createcopycatcasing.copycat.ICopycatEncasedBlock;
 import com.kruf.createcopycatcasing.registry.BlockRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,7 +18,7 @@ public class CopycatColors {
         event.register((state, level, pos, tintIndex) -> {
             if (level == null || pos == null)
                 return -1;
-            BlockState mat = CopycatEncasedShaftBlock.getMaterial(level, pos);
+            BlockState mat = ICopycatEncasedBlock.getMaterial(level, pos);
             if (mat.isAir())
                 return -1;
             return Minecraft.getInstance().getBlockColors().getColor(mat, level, pos, tintIndex);
