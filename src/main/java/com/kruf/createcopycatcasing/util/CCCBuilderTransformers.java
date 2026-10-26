@@ -55,7 +55,7 @@ public class CCCBuilderTransformers {
                 .onRegister(CreateRegistrate.casingConnectivity((block, cc) -> cc.make(block, casingShift.get(),
                         (s, f) -> f.getAxis() != s.getValue(EncasedShaftBlock.AXIS))))
                 .blockstate((c, p) -> axisBlock(c, p, blockState ->
-                        p.models().getExistingFile(p.modLoc("block/encased_shaft/block_" + casing)), true))
+                        p.models().getExistingFile(p.modLoc("block/copycat_encased_shaft/block_" + casing)), true))
                 .item()
                 .model(AssetLookup.customBlockItemModel("encased_shaft", "item_" + casing))
                 .build();
@@ -68,14 +68,14 @@ public class CCCBuilderTransformers {
 
     public static <B extends EncasedCogwheelBlock, P> NonNullUnaryOperator<BlockBuilder<B, P>> encasedLargeCogwheel(
             String casing, Supplier<CTSpriteShiftEntry> casingShift) {
-        return b -> encasedCogwheelBase(b, casing, casingShift, AllBlocks.LARGE_COGWHEEL::get, true)
-                .onRegister(CreateRegistrate.connectedTextures(() -> new EncasedCogCTBehaviour(casingShift.get())));
+        return b -> encasedCogwheelBase(b, casing, casingShift, AllBlocks.LARGE_COGWHEEL::get, true);
+//                .onRegister(CreateRegistrate.connectedTextures(() -> new EncasedCogCTBehaviour(casingShift.get())));
     }
 
     private static <B extends EncasedCogwheelBlock, P> BlockBuilder<B, P> encasedCogwheelBase(BlockBuilder<B, P> b,
                                                                                               String casing, Supplier<CTSpriteShiftEntry> casingShift, Supplier<ItemLike> drop, boolean large) {
         String encasedSuffix = "_encased_cogwheel_side" + (large ? "_connected" : "");
-        String blockFolder = large ? "encased_large_cogwheel" : "encased_cogwheel";
+        String blockFolder = large ? "copycat_encased_large_cogwheel" : "copycat_encased_cogwheel";
         String wood = casing.equals("brass") ? "dark_oak" : "spruce";
         String gearbox = casing.equals("brass") ? "brass_gearbox" : "gearbox";
         return encasedBase(b, drop).addLayer(() -> RenderType::cutoutMipped)

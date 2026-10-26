@@ -22,10 +22,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class CopycatEncasedModel extends BakedModelWrapper<BakedModel> {
-    private static final ResourceLocation CASING_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath("createcopycatcasing", "block/copycat_casing");
+    private static final Set<ResourceLocation> CASING_TEXTURES = Set.of(
+            ResourceLocation.fromNamespaceAndPath("createcopycatcasing", "block/copycat_casing"));
 
     public CopycatEncasedModel(BakedModel originalModel) {
         super(originalModel);
@@ -69,7 +70,7 @@ public class CopycatEncasedModel extends BakedModelWrapper<BakedModel> {
 
         for (BakedQuad quad : quads) {
             boolean boundary = isOnBoundary(quad);
-            boolean isCasing = quad.getSprite().contents().name().equals(CASING_TEXTURE);
+            boolean isCasing = CASING_TEXTURES.contains(quad.getSprite().contents().name());
 
             if (boundary && (occluded & (1 << quad.getDirection().ordinal())) != 0)
                 continue;
@@ -206,7 +207,7 @@ public class CopycatEncasedModel extends BakedModelWrapper<BakedModel> {
         BlockState material = modelData.get(CopycatModelProperties.MATERIAL);
 
         if (material == null || material.isAir())
-            return modelData.derive()
+            return super.getModelData(level, pos, state, modelData).derive()
                     .with(CopycatModelProperties.OCCLUDED_FACES, emptyOcclusion(level, pos, state))
                     .build();
 

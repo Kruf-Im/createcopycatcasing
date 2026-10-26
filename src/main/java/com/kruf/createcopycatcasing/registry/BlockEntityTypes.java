@@ -16,18 +16,18 @@ public class BlockEntityTypes {
             .validBlocks(BlockRegistry.COPYCAT_ENCASED_SHAFT)
             .renderer(() -> ShaftRenderer::new)
             .register();
-//    public static final BlockEntityEntry<CopycatEncasedKineticBlockEntity> COPYCAT_ENCASED_COGWHEEL = REGISTRATE
-//            .blockEntity("copycat_encased_cogwheel", CopycatEncasedKineticBlockEntity::new)
-//            .visual(() -> EncasedCogVisual::small, false)
-//            .validBlocks(BlockRegistry.COPYCAT_ENCASED_COGWHEEL)
-//            .renderer(()-> EncasedCogRenderer::small)
-//            .register();
-//    public static final BlockEntityEntry<CopycatEncasedKineticBlockEntity> COPYCAT_ENCASED_LARGE_COGWHEEL = REGISTRATE
-//            .blockEntity("encased_large_cogwheel", CopycatEncasedKineticBlockEntity::new)
-//            .visual(() -> EncasedCogVisual::large, false)
-//            .validBlocks(BlockRegistry.COPYCAT_ENCASED_LARGE_COGWHEEL)
-//            .renderer(()-> EncasedCogRenderer::large)
-//            .register();
+    public static final BlockEntityEntry<CopycatEncasedKineticBlockEntity> COPYCAT_ENCASED_COGWHEEL = REGISTRATE
+            .blockEntity("copycat_encased_cogwheel", CopycatEncasedKineticBlockEntity::new)
+            .visual(() -> EncasedCogVisual::small, false)
+            .validBlocks(BlockRegistry.COPYCAT_ENCASED_COGWHEEL)
+            .renderer(()-> EncasedCogRenderer::small)
+            .register();
+    public static final BlockEntityEntry<CopycatEncasedKineticBlockEntity> COPYCAT_ENCASED_LARGE_COGWHEEL = REGISTRATE
+            .blockEntity("encased_large_cogwheel", CopycatEncasedKineticBlockEntity::new)
+            .visual(() -> EncasedCogVisual::large, false)
+            .validBlocks(BlockRegistry.COPYCAT_ENCASED_LARGE_COGWHEEL)
+            .renderer(()-> EncasedCogRenderer::large)
+            .register();
 //    public static final BlockEntityEntry<FluidPipeBlockEntity> ENCASED_FLUID_PIPE = REGISTRATE
 //            .blockEntity("encased_fluid_pipe", FluidPipeBlockEntity::new)
 //            .validBlocks(BlockRegistry.COPYCAT_ENCASED_FLUID_PIPE)

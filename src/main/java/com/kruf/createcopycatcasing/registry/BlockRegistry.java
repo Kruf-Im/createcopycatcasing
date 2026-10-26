@@ -5,14 +5,18 @@ import com.kruf.createcopycatcasing.block.CopycatCasingBlock;
 /*import com.kruf.createcopycatcasing.block.CopycatEncasedCogwheelBlock;
 import com.kruf.createcopycatcasing.block.CCCEncasedPipeBlock;*/
 //import com.kruf.createcopycatcasing.block.CopycatEncasedCogwheelBlock;
+import com.kruf.createcopycatcasing.block.CopycatEncasedCogwheelBlock;
 import com.kruf.createcopycatcasing.block.CopycatEncasedShaftBlock;
 import com.kruf.createcopycatcasing.client.CopycatEncasedModel;
 import com.kruf.createcopycatcasing.util.CCCBuilderTransformers;
 import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllSpriteShifts;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.decoration.encasing.EncasingRegistry;
+import com.simibubi.create.content.kinetics.simpleRelays.encased.EncasedCogCTBehaviour;
 import com.simibubi.create.foundation.data.*;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import net.createmod.catnip.data.Couple;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -54,33 +58,27 @@ public class BlockRegistry {
             .onRegister(CreateRegistrate.blockModel(() -> CopycatEncasedModel::new))
             .tag(AllTags.AllBlockTags.COPYCAT_DENY.tag)
             .register();
-//    public static final BlockEntry<CopycatEncasedCogwheelBlock> COPYCAT_ENCASED_COGWHEEL = REGISTRATE
-//            .block("copycat_encased_cogwheel",
-//                    p-> new CopycatEncasedCogwheelBlock(p, false, BlockRegistry.COPYCAT_CASING::get))
-//            .initialProperties(SharedProperties::softMetal)
-//            .properties(p->p.mapColor(MapColor.COLOR_GRAY))
-//            .properties(BlockBehaviour.Properties::noOcclusion)
-//            .addLayer(() -> RenderType::cutoutMipped)
-//            .transform(CCCBuilderTransformers.encasedCogwheel("copycat", ()->CreateCopycatCasingSpriteShifts.COPYCAT_CASING))
-//            .transform(EncasingRegistry.addVariantTo(AllBlocks.COGWHEEL))
-//            .onRegister(CreateRegistrate.connectedTextures(() -> new EncasedCogCTBehaviour(CreateCopycatCasingSpriteShifts.COPYCAT_CASING,
-//                    Couple.create(CreateCopycatCasingSpriteShifts.COPYCAT_ENCASED_COGWHEEL_SIDE,
-//                            CreateCopycatCasingSpriteShifts.COPYCAT_ENCASED_COGWHEEL_OTHERSIDE))))
-//            .properties(p -> p.sound(SoundType.METAL))
-//            .transform(pickaxeOnly())
-//            .register();
-//    public static final BlockEntry<CopycatEncasedCogwheelBlock> COPYCAT_ENCASED_LARGE_COGWHEEL = REGISTRATE
-//            .block("copycat_encased_large_cogwheel",
-//                    p-> new CopycatEncasedCogwheelBlock(p, true, BlockRegistry.COPYCAT_CASING::get))
-//            .initialProperties(SharedProperties::softMetal)
-//            .properties(p->p.mapColor(MapColor.COLOR_GRAY))
-//            .properties(BlockBehaviour.Properties::noOcclusion)
-//            .addLayer(() -> RenderType::cutoutMipped)
-//            .transform(CCCBuilderTransformers.encasedLargeCogwheel("copycat", ()->CreateCopycatCasingSpriteShifts.COPYCAT_CASING))
-//            .transform(EncasingRegistry.addVariantTo(AllBlocks.LARGE_COGWHEEL))
-//            .properties(p -> p.sound(SoundType.METAL))
-//            .transform(pickaxeOnly())
-//            .register();
+    public static final BlockEntry<CopycatEncasedCogwheelBlock> COPYCAT_ENCASED_COGWHEEL = REGISTRATE
+            .block("copycat_encased_cogwheel",
+                    p -> new CopycatEncasedCogwheelBlock(p, false, BlockRegistry.COPYCAT_CASING::get))
+            .properties(p -> p.mapColor(MapColor.COLOR_GRAY).sound(SoundType.METAL))
+            .transform(CCCBuilderTransformers.encasedCogwheel("copycat", () -> CreateCopycatCasingSpriteShifts.COPYCAT_CASING))
+            .transform(EncasingRegistry.addVariantTo(AllBlocks.COGWHEEL))
+            .onRegister(CreateRegistrate.blockModel(() -> CopycatEncasedModel::new))   // ← added
+            .transform(axeOrPickaxe())
+            .register();
+
+    public static final BlockEntry<CopycatEncasedCogwheelBlock> COPYCAT_ENCASED_LARGE_COGWHEEL = REGISTRATE
+            .block("copycat_encased_large_cogwheel",
+                    p -> new CopycatEncasedCogwheelBlock(p, true, BlockRegistry.COPYCAT_CASING::get))
+            .initialProperties(SharedProperties::softMetal)
+            .properties(p -> p.mapColor(MapColor.COLOR_GRAY).noOcclusion().sound(SoundType.METAL))
+            .addLayer(() -> RenderType::cutoutMipped)
+            .transform(CCCBuilderTransformers.encasedLargeCogwheel("copycat", () -> CreateCopycatCasingSpriteShifts.COPYCAT_CASING))
+            .transform(EncasingRegistry.addVariantTo(AllBlocks.LARGE_COGWHEEL))
+            .onRegister(CreateRegistrate.blockModel(() -> CopycatEncasedModel::new))   // ← added
+            .transform(axeOrPickaxe())
+            .register();
 //    public static final BlockEntry<CCCEncasedPipeBlock> COPYCAT_ENCASED_FLUID_PIPE = REGISTRATE
 //            .block("copycat_encased_fluid_pipe",
 //                    p -> new CCCEncasedPipeBlock(p, BlockRegistry.COPYCAT_CASING::get))
