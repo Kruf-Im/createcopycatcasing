@@ -47,7 +47,7 @@ public class CopycatEncasedShaftBlock extends EncasedShaftBlock implements ICopy
     @Override
     @SuppressWarnings("deprecation")
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
-        copycatOnRemove(state, level, pos, newState);
+        copycatOnRemove(state, level, pos, newState, moved);
         super.onRemove(state, level, pos, newState, moved);
     }
 

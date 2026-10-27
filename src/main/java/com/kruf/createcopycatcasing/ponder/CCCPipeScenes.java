@@ -86,7 +86,7 @@ public class CCCPipeScenes {
                 .withItem(new ItemStack(Blocks.BRICKS));
         scene.idle(7);
         scene.world().modifyBlockEntityNBT(util.select().position(intoWall), CopycatEncasedPipeBlockEntity.class,
-                nbt -> nbt.put("Material", NbtUtils.writeBlockState(Blocks.BRICKS.defaultBlockState())),
+                nbt -> nbt.put("CopycatMaterial", NbtUtils.writeBlockState(Blocks.BRICKS.defaultBlockState())),
                 true);
         scene.idle(15);
 
@@ -94,7 +94,7 @@ public class CCCPipeScenes {
                 .withItem(new ItemStack(Blocks.BRICKS));
         scene.idle(7);
         scene.world().modifyBlockEntityNBT(util.select().position(frontRight), CopycatEncasedPipeBlockEntity.class,
-                nbt -> nbt.put("Material", NbtUtils.writeBlockState(Blocks.BRICKS.defaultBlockState())),
+                nbt -> nbt.put("CopycatMaterial", NbtUtils.writeBlockState(Blocks.BRICKS.defaultBlockState())),
                 true);
         scene.idle(15);
 

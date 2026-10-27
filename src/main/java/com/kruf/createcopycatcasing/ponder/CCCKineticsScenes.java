@@ -74,7 +74,7 @@ public class CCCKineticsScenes {
                 .withItem(new ItemStack(Blocks.BRICKS));
         scene.idle(7);
         scene.world().modifyBlockEntityNBT(util.select().position(first), CopycatEncasedKineticBlockEntity.class,
-                nbt -> nbt.put("Material", NbtUtils.writeBlockState(Blocks.BRICKS.defaultBlockState())),
+                nbt -> nbt.put("CopycatMaterial", NbtUtils.writeBlockState(Blocks.BRICKS.defaultBlockState())),
                 true);
         scene.idle(10);
 
@@ -170,7 +170,7 @@ public class CCCKineticsScenes {
                 .withItem(new ItemStack(Blocks.OAK_PLANKS));
         scene.idle(7);
         scene.world().modifyBlockEntityNBT(util.select().position(large), CopycatEncasedKineticBlockEntity.class,
-                nbt -> nbt.put("Material", NbtUtils.writeBlockState(Blocks.OAK_WOOD.defaultBlockState())),
+                nbt -> nbt.put("CopycatMaterial", NbtUtils.writeBlockState(Blocks.OAK_WOOD.defaultBlockState())),
                 true);
         scene.idle(15);
 
@@ -178,7 +178,7 @@ public class CCCKineticsScenes {
                 .withItem(new ItemStack(Blocks.BRICKS));
         scene.idle(7);
         scene.world().modifyBlockEntityNBT(util.select().position(smallPlain), CopycatEncasedKineticBlockEntity.class,
-                nbt -> nbt.put("Material", NbtUtils.writeBlockState(Blocks.BRICKS.defaultBlockState())),
+                nbt -> nbt.put("CopycatMaterial", NbtUtils.writeBlockState(Blocks.BRICKS.defaultBlockState())),
                 true);
         scene.idle(15);
 

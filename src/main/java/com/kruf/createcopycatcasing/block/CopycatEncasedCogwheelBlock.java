@@ -7,6 +7,7 @@ import com.simibubi.create.content.kinetics.simpleRelays.SimpleKineticBlockEntit
 import com.simibubi.create.content.kinetics.simpleRelays.encased.EncasedCogwheelBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
@@ -53,7 +54,7 @@ public class CopycatEncasedCogwheelBlock extends EncasedCogwheelBlock implements
     @Override
     @SuppressWarnings("deprecation")
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
-        copycatOnRemove(state, level, pos, newState);
+        copycatOnRemove(state, level, pos, newState, moved);
         super.onRemove(state, level, pos, newState, moved);
     }
 
@@ -114,4 +115,5 @@ public class CopycatEncasedCogwheelBlock extends EncasedCogwheelBlock implements
     public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
         return copycatGetLightEmission(state, level, pos);
     }
+
 }

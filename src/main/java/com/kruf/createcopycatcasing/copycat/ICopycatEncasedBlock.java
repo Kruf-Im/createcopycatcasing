@@ -102,12 +102,15 @@ public interface ICopycatEncasedBlock {
         return InteractionResult.SUCCESS;
     }
 
-    default void copycatOnRemove(BlockState state, Level level, BlockPos pos, BlockState newState) {
+    default void copycatOnRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
         if (state.is(newState.getBlock()))
             return;
-        CopycatMaterial cm = copycatAt(level, pos);
-        if (cm != null && !cm.getConsumedItem().isEmpty())
-            Block.popResource(level, pos, cm.getConsumedItem().copy());
+        if (!moved) {
+            CopycatMaterial cm = copycatAt(level, pos);
+            if (cm != null && !cm.getConsumedItem().isEmpty())
+                Block.popResource(level, pos, cm.getConsumedItem().copy());
+        }
+
         AuxiliaryLightManager lightManager = level.getAuxLightManager(pos);
         if(lightManager != null)
             lightManager.setLightAt(pos, 0);
