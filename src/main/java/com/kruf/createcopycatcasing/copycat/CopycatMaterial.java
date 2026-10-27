@@ -18,6 +18,8 @@ import javax.annotation.Nullable;
 
 public class CopycatMaterial {
     private final SmartBlockEntity owner;
+    private static final String MATERIAL_KEY = "CopycatMaterial";
+    private static final String ITEM_KEY = "CopycatItem";
     private BlockState material = Blocks.AIR.defaultBlockState();
     private ItemStack consumedItem = ItemStack.EMPTY;
     public CopycatMaterial(SmartBlockEntity owner){
@@ -85,16 +87,16 @@ public class CopycatMaterial {
         return null;
     }
     public void write(CompoundTag tag, HolderLookup.Provider regs) {
-        tag.put("Material", NbtUtils.writeBlockState(material));
+        tag.put(MATERIAL_KEY, NbtUtils.writeBlockState(material));
         if (!consumedItem.isEmpty())
-            tag.put("Item", consumedItem.save(regs));
+            tag.put(ITEM_KEY, consumedItem.save(regs));
     }
 
     public boolean read(CompoundTag tag, HolderLookup.Provider regs) {
         BlockState prev = material;
-        material = NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), tag.getCompound("Material"));
-        consumedItem = tag.contains("Item")
-                ? ItemStack.parseOptional(regs, tag.getCompound("Item"))
+        material = NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), tag.getCompound(MATERIAL_KEY));
+        consumedItem = tag.contains(ITEM_KEY)
+                ? ItemStack.parseOptional(regs, tag.getCompound(ITEM_KEY))
                 : ItemStack.EMPTY;
         return prev != material;
     }
