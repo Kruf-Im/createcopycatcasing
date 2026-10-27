@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "createcopycatcasing:copycat_casing",
+    "createcopycatcasing:copycat_encased_shaft",
+    "createcopycatcasing:copycat_encased_cogwheel",
+    "createcopycatcasing:copycat_encased_large_cogwheel",
+    "createcopycatcasing:copycat_encased_fluid_pipe"
+  ]
+}
