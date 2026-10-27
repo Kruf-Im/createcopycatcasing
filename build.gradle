@@ -22,15 +22,32 @@ repositories {
     maven {url = "https://maven.createmod.net"} // Create, flywheel, ponder
     maven {url = "https://maven.ithundxr.dev/snapshots"} // Registrate
     maven {url = "https://maven.blamejared.com"} // JEI
+    exclusiveContent {
+        forRepository { maven { url = "https://api.modrinth.com/maven" } }
+        filter { includeGroup "maven.modrinth" }
+    }
 }
-
+configurations {
+    localRuntime
+    runtimeClasspath.extendsFrom localRuntime
+}
 dependencies {
     implementation("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false }
-    implementation("net.createmod.ponder:Ponder-NeoForge-${minecraft_version}:${ponder_version}")
+    implementation("net.createmod.ponder:ponder-neoforge:${ponder_version}+mc${minecraft_version}")
     compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${minecraft_version}:${flywheel_version}")
     runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
     implementation("com.tterrag.registrate:Registrate:${registrate_version}")
-    implementation("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+    localRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+    localRuntime "maven.modrinth:sable:${sable_version}"
+    localRuntime "maven.modrinth:create-aeronautics:${aeronautics_version}"
+
+
+    // Bits n bobs compat
+    compileOnly "maven.modrinth:create-bits-n-bobs:${bitsnbobs_version}"
+    localRuntime "maven.modrinth:create-bits-n-bobs:${bitsnbobs_version}"
+    compileOnly "maven.modrinth:azimuth-api:${azimuth_version}"
+    localRuntime "maven.modrinth:azimuth-api:${azimuth_version}"
+    localRuntime "maven.modrinth:strut-your-stuff:${struts_version}"
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
