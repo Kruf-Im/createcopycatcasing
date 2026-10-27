@@ -95,7 +95,6 @@ public class BlockRegistry {
             .initialProperties(SharedProperties::copperMetal)
             .properties(p -> p.noOcclusion()
                     .mapColor(MapColor.COLOR_GRAY))
-            .properties(BlockBehaviour.Properties::noOcclusion)
             .properties(BlockBehaviour.Properties::dynamicShape)
             .addLayer(() -> RenderType::cutoutMipped)
             .transform(axeOrPickaxe())
@@ -103,7 +102,7 @@ public class BlockRegistry {
 //            .onRegister(CreateRegistrate.casingConnectivity(
 //                    (block, casingConnectivity) -> casingConnectivity.make(block, CreateCopycatCasingSpriteShifts.COPYCAT_CASING,
 //                            (state, direction) -> !state.getValue(CopycatEncasedPipeBlock.FACING_TO_PROPERTY_MAP.get(direction)))))
-            .onRegister(CreateRegistrate.blockModel(() -> PipeAttachmentModel::withAO))
+//            .onRegister(CreateRegistrate.blockModel(() -> PipeAttachmentModel::withAO))
             .onRegister(CreateRegistrate.blockModel(() -> CopycatEncasedModel::new))
             .loot((lootTables, pipeBlock) -> lootTables.dropOther(pipeBlock, AllBlocks.FLUID_PIPE.get()))
             .properties(p -> p.sound(SoundType.METAL))

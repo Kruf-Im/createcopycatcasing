@@ -99,4 +99,14 @@ public class CopycatEncasedShaftBlock extends EncasedShaftBlock implements ICopy
     protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
         return copycatShadeBrightness(level, pos);
     }
+
+    @Override
+    public boolean hasDynamicLightEmission(BlockState state) {
+        return copycatHasDynamicLightEmission(state);
+    }
+
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
+        return copycatGetLightEmission(state, level, pos);
+    }
 }

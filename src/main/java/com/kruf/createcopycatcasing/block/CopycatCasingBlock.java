@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.world.AuxiliaryLightManager;
 
 public class CopycatCasingBlock extends CasingBlock  {
     public CopycatCasingBlock(Properties pProperties) {

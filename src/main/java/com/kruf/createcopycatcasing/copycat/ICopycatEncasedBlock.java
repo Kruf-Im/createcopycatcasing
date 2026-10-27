@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.common.world.AuxiliaryLightManager;
 import org.jetbrains.annotations.Nullable;
 
 public interface ICopycatEncasedBlock {
@@ -107,6 +108,9 @@ public interface ICopycatEncasedBlock {
         CopycatMaterial cm = copycatAt(level, pos);
         if (cm != null && !cm.getConsumedItem().isEmpty())
             Block.popResource(level, pos, cm.getConsumedItem().copy());
+        AuxiliaryLightManager lightManager = level.getAuxLightManager(pos);
+        if(lightManager != null)
+            lightManager.setLightAt(pos, 0);
     }
 
     default void copycatPlayerWillDestroy(Level level, BlockPos pos, Player player) {
@@ -164,5 +168,13 @@ public interface ICopycatEncasedBlock {
     default float copycatShadeBrightness(BlockGetter level, BlockPos pos) {
         CopycatMaterial cm = copycatAt(level, pos);
         return cm != null && cm.has() ? cm.get().getShadeBrightness(level, pos) : 1.0F;
+    }
+    default boolean copycatHasDynamicLightEmission(BlockState state) {
+        return true;
+    }
+
+    default int copycatGetLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
+        AuxiliaryLightManager lightManager = level.getAuxLightManager(pos);
+        return lightManager != null ? lightManager.getLightAt(pos) : 0;
     }
 }

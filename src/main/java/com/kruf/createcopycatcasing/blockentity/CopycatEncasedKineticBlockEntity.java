@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.neoforged.neoforge.common.world.AuxiliaryLightManager;
 import org.jetbrains.annotations.Nullable;
 
 public class CopycatEncasedKineticBlockEntity extends SimpleKineticBlockEntity implements ICopycatMaterialBlockEntity {
@@ -52,20 +53,30 @@ public class CopycatEncasedKineticBlockEntity extends SimpleKineticBlockEntity i
     @Override
     protected void read(CompoundTag tag, HolderLookup.Provider regs, boolean clientPacket) {
         super.read(tag, regs, clientPacket);
-        if (copycat.read(tag, regs) && clientPacket && level != null) {
-            requestModelDataUpdate();
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 8);
-            level.getLightEngine().checkBlock(worldPosition);
-        }
-        if (copycat.read(tag, regs) && level != null && level.isClientSide)
+        boolean changed = copycat.read(tag, regs);
+        if (changed && level != null && level.isClientSide)
             redraw();
     }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        updateLighting();
+    }
+
     private void redraw() {
         requestModelDataUpdate();
         if (!isVirtual()) {
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 8);
-            level.getLightEngine().checkBlock(worldPosition);
+//            level.getLightEngine().checkBlock(worldPosition);
+            updateLighting();
         }
+    }
+    private void updateLighting(){
+        BlockPos pos = getBlockPos();
+        AuxiliaryLightManager lightManager = level.getAuxLightManager(pos);
+        if(lightManager != null)
+            lightManager.setLightAt(pos, getMaterial().getLightEmission(level, pos));
     }
 
 }
