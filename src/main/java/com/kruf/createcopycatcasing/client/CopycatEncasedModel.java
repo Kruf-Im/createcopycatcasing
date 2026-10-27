@@ -235,6 +235,9 @@ public class CopycatEncasedModel extends BakedModelWrapperWithData {
         if (material == null && level.getBlockEntity(pos) instanceof ICopycatMaterialBlockEntity be)
             material = be.getCopycatMaterial().get();
 
+        if (material == null || material.isAir())
+            return builder.with(CopycatModelProperties.OCCLUDED_FACES, emptyOcclusion(level, pos, state));
+
         builder.with(CopycatModelProperties.MATERIAL, material);
 
         CopycatAppearanceGetter getter = new CopycatAppearanceGetter(level);
