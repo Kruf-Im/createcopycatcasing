@@ -1,7 +1,6 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "1": "block/stripped_spruce_log_top",
     "particle": "createcopycatcasing:block/copycat_casing",
     "casing": "createcopycatcasing:block/copycat_casing",
     "ring": "createcopycatcasing:block/copycat_shaft_ring"
@@ -16,7 +15,7 @@
         "east": {"uv": [0, 10, 16, 15], "texture": "#casing"},
         "south": {"uv": [0, 10, 16, 15], "texture": "#casing"},
         "west": {"uv": [0, 10, 16, 15], "texture": "#casing"},
-        "up": {"uv": [0, 0, 16, 16], "texture": "#1"}
+        "up": {"uv": [0, 0, 16, 16], "texture": "#casing"}
       }
     },
 
@@ -71,7 +70,7 @@
         "east": {"uv": [0, 1, 16, 6], "texture": "#casing"},
         "south": {"uv": [0, 1, 16, 6], "texture": "#casing"},
         "west": {"uv": [0, 1, 16, 6], "texture": "#casing"},
-        "down": {"uv": [0, 0, 16, 16], "texture": "#1"}
+        "down": {"uv": [0, 0, 16, 16], "texture": "#casing"}
       }
     },
 
