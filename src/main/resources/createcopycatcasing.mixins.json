@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.kruf.createcopycatcasing.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "compat.bnb.CogwheelMaterialRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

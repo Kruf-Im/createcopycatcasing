@@ -1,10 +1,13 @@
 package com.kruf.createcopycatcasing.blockentity;
 
+import com.kruf.createcopycatcasing.block.CopycatEncasedCogwheelBlock;
 import com.kruf.createcopycatcasing.client.CopycatModelProperties;
+import com.kruf.createcopycatcasing.compat.bnb.BnbCompat;
 import com.kruf.createcopycatcasing.copycat.CopycatMaterial;
 import com.kruf.createcopycatcasing.copycat.ICopycatMaterialBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.simpleRelays.SimpleKineticBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,6 +22,8 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.common.world.AuxiliaryLightManager;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class CopycatEncasedKineticBlockEntity extends SimpleKineticBlockEntity implements ICopycatMaterialBlockEntity {
     private CopycatMaterial copycat = new CopycatMaterial(this);
@@ -79,4 +84,10 @@ public class CopycatEncasedKineticBlockEntity extends SimpleKineticBlockEntity i
             lightManager.setLightAt(pos, getMaterial().getLightEmission(level, pos));
     }
 
+    @Override
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+        super.addBehaviours(behaviours);
+        if (getBlockState().getBlock() instanceof CopycatEncasedCogwheelBlock && BnbCompat.isLoaded())
+            BnbCompat.addCogwheelMaterial(this, behaviours);
+    }
 }
