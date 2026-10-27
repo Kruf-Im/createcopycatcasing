@@ -10,4 +10,6 @@ public class CopycatModelProperties {
     public static final ModelProperty<ModelData> WRAPPED_DATA = new ModelProperty<>();
     public static final ModelProperty<Integer> OCCLUDED_FACES = new ModelProperty<>();
     public static final ModelProperty<ModelData> INNER_DATA = new ModelProperty<>();
+    public static final ModelProperty<Integer> MERGED_FACES = new ModelProperty<>();
+    public static final ModelProperty<Integer> CONTINUED_FACES = new ModelProperty<>();
 }

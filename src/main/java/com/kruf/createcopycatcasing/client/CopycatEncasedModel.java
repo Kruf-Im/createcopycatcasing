@@ -43,6 +43,10 @@ public class CopycatEncasedModel extends BakedModelWrapperWithData {
                                     ModelData extraData, @Nullable RenderType renderType) {
         Integer occ = extraData.get(CopycatModelProperties.OCCLUDED_FACES);
         int occluded = occ == null ? 0 : occ;
+        Integer mg = extraData.get(CopycatModelProperties.MERGED_FACES);
+        int merged = mg == null ? 0 : mg;
+        Integer ct = extraData.get(CopycatModelProperties.CONTINUED_FACES);
+        int continued = ct == null ? 0 : ct;
         Direction.Axis shaftAxis = state != null && state.hasProperty(BlockStateProperties.AXIS)
                 ? state.getValue(BlockStateProperties.AXIS) : null;
 
@@ -72,20 +76,29 @@ public class CopycatEncasedModel extends BakedModelWrapperWithData {
         List<BakedQuad> result = new ArrayList<>(quads.size());
         boolean seeThrough = !material.canOcclude();
         boolean materialTranslucent = materialTypes.contains(RenderType.translucent());
+        boolean hasInner = state != null && state.getBlock() instanceof ICopycatEncasedBlock b
+                && b.getInnerRenderState(state) != null;
 
         for (BakedQuad quad : quads) {
             boolean boundary = isOnBoundary(quad);
             boolean isCasing = CASING_TEXTURES.contains(quad.getSprite().contents().name());
 
-            if (boundary && (occluded & (1 << quad.getDirection().ordinal())) != 0)
-                continue;
+            if (boundary && (occluded & (1 << quad.getDirection().ordinal())) != 0) {
+                boolean keepOverlay = seeThrough && !isCasing
+                        && (continued & (1 << quad.getDirection().ordinal())) == 0;
+                if (!keepOverlay)
+                    continue;
+            }
 
             boolean isEndFace = shaftAxis != null && quad.getDirection().getAxis() == shaftAxis;
             if (seeThrough && !isEndFace && !boundary)
                 continue;
 
-            if (seeThrough && isEndFace && isOnOccludedEnd(quad, shaftAxis, occluded))
+            if (seeThrough && isEndFace && isOnOccludedEnd(quad, shaftAxis, isCasing ? merged : continued))
                 continue;
+
+//            if (seeThrough && hasInner && !isCasing && boundary)
+//                continue;
 
             if (isCasing) {
                 if (!drawMaterial) continue;
@@ -227,16 +240,31 @@ public class CopycatEncasedModel extends BakedModelWrapperWithData {
         CopycatAppearanceGetter getter = new CopycatAppearanceGetter(level);
 
         int occluded = 0;
-        for (Direction d : Direction.values())
-            if (!Block.shouldRenderFace(material, getter, pos, d, pos.relative(d)))
-                occluded |= 1 << d.ordinal();
+        int merged = 0;
+        int continued = 0;
+        for (Direction d : Direction.values()) {
+            BlockPos n = pos.relative(d);
+            int bit = 1 << d.ordinal();
 
+            if (!Block.shouldRenderFace(material, getter, pos, d, n))
+                occluded |= bit;
+
+            boolean mergesWithMaterial = material.skipRendering(getter.getBlockState(n), d);
+            if (mergesWithMaterial)
+                merged |= bit;
+
+            BlockState raw = level.getBlockState(n);
+            if (mergesWithMaterial && raw != null && raw.getBlock() instanceof ICopycatEncasedBlock)
+                continued |= bit;
+        }
         BakedModel materialModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(material);
         ModelData wrapped = materialModel.getModelData(getter, pos, material, ModelData.EMPTY);
 
         return builder
                 .with(CopycatModelProperties.WRAPPED_DATA, wrapped)
-                .with(CopycatModelProperties.OCCLUDED_FACES, occluded);
+                .with(CopycatModelProperties.OCCLUDED_FACES, occluded)
+                .with(CopycatModelProperties.MERGED_FACES, merged)
+                .with(CopycatModelProperties.CONTINUED_FACES, continued);
     }
 
     private static int emptyOcclusion(BlockAndTintGetter level, BlockPos pos, BlockState state) {

@@ -2,6 +2,7 @@ package com.kruf.createcopycatcasing.client;
 
 import com.kruf.createcopycatcasing.block.CopycatEncasedShaftBlock;
 import com.kruf.createcopycatcasing.blockentity.CopycatEncasedKineticBlockEntity;
+import com.kruf.createcopycatcasing.copycat.ICopycatEncasedBlock;
 import com.kruf.createcopycatcasing.copycat.ICopycatMaterialBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -41,11 +42,13 @@ public class CopycatAppearanceGetter implements BlockAndTintGetter {
     }
 
     @Override
-    public BlockState getBlockState(BlockPos blockPos) {
-        BlockState state = level.getBlockState(blockPos);
-        if(state.getBlock() instanceof CopycatEncasedShaftBlock){
-            if(level.getBlockEntity(blockPos) instanceof ICopycatMaterialBlockEntity cesbe && cesbe.getCopycatMaterial().has())
-                return cesbe.getCopycatMaterial().get();
+    public BlockState getBlockState(BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        if (state == null)
+            return Blocks.AIR.defaultBlockState();
+        if (state.getBlock() instanceof ICopycatEncasedBlock) {
+            if (level.getBlockEntity(pos) instanceof ICopycatMaterialBlockEntity be && be.getCopycatMaterial().has())
+                return be.getCopycatMaterial().get();
             return Blocks.AIR.defaultBlockState();
         }
         return state;
