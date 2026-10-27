@@ -19,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.client.ChunkRenderTypeSet;
@@ -31,6 +32,10 @@ import java.util.List;
 import java.util.Set;
 
 public class CopycatEncasedModel extends BakedModelWrapperWithData {
+    private static final ChunkRenderTypeSet OWN_LAYERS = ChunkRenderTypeSet.of(RenderType.cutoutMipped());
+    private static final ChunkRenderTypeSet ALL_LAYERS = ChunkRenderTypeSet.of(
+            RenderType.solid(), RenderType.cutoutMipped(), RenderType.cutout(), RenderType.translucent());
+
     private static final Set<ResourceLocation> CASING_TEXTURES = Set.of(
             ResourceLocation.fromNamespaceAndPath("createcopycatcasing", "block/copycat_casing"));
 
@@ -53,8 +58,10 @@ public class CopycatEncasedModel extends BakedModelWrapperWithData {
         BlockState material = extraData.get(CopycatModelProperties.MATERIAL);
 
         if (material == null || material.isAir()) {
+            if (renderType != null && !OWN_LAYERS.contains(renderType))
+                return List.of();
             List<BakedQuad> out = new ArrayList<>();
-            for (BakedQuad q : super.getQuads(state, side, rand, extraData, renderType))
+            for (BakedQuad q : super.getQuads(state, side, rand, extraData, null))
                 if (shaftAxis == null || occluded == 0 || !isOnOccludedEnd(q, shaftAxis, occluded))
                     out.add(q);
             addInnerQuads(out, state, side, rand, extraData);
@@ -66,7 +73,7 @@ public class CopycatEncasedModel extends BakedModelWrapperWithData {
         if (wrapped == null) wrapped = ModelData.EMPTY;
 
         ChunkRenderTypeSet materialTypes = materialModel.getRenderTypes(material, rand, wrapped);
-        ChunkRenderTypeSet ownTypes = super.getRenderTypes(state, rand, extraData);
+        ChunkRenderTypeSet ownTypes = OWN_LAYERS;
         boolean drawMaterial = renderType == null || materialTypes.contains(renderType);
         boolean drawOwn = renderType == null || ownTypes.contains(renderType);
         if (!drawMaterial && !drawOwn)
@@ -76,8 +83,6 @@ public class CopycatEncasedModel extends BakedModelWrapperWithData {
         List<BakedQuad> result = new ArrayList<>(quads.size());
         boolean seeThrough = !material.canOcclude();
         boolean materialTranslucent = materialTypes.contains(RenderType.translucent());
-        boolean hasInner = state != null && state.getBlock() instanceof ICopycatEncasedBlock b
-                && b.getInnerRenderState(state) != null;
 
         for (BakedQuad quad : quads) {
             boolean boundary = isOnBoundary(quad);
@@ -96,9 +101,6 @@ public class CopycatEncasedModel extends BakedModelWrapperWithData {
 
             if (seeThrough && isEndFace && isOnOccludedEnd(quad, shaftAxis, isCasing ? merged : continued))
                 continue;
-
-//            if (seeThrough && hasInner && !isCasing && boundary)
-//                continue;
 
             if (isCasing) {
                 if (!drawMaterial) continue;
@@ -211,16 +213,16 @@ public class CopycatEncasedModel extends BakedModelWrapperWithData {
 
     @Override
     public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource rand, ModelData data) {
-        ChunkRenderTypeSet own = super.getRenderTypes(state, rand, data);
         BlockState mat = data.get(CopycatModelProperties.MATERIAL);
-        if (mat == null || mat.isAir())
-            return own;
+        if (mat == null)
+            return ALL_LAYERS;
+        if (mat.isAir())
+            return OWN_LAYERS;
         ModelData wrapped = data.get(CopycatModelProperties.WRAPPED_DATA);
         if (wrapped == null) wrapped = ModelData.EMPTY;
-
         ChunkRenderTypeSet material = Minecraft.getInstance().getBlockRenderer()
                 .getBlockModel(mat).getRenderTypes(mat, rand, wrapped);
-        return ChunkRenderTypeSet.union(own, material);
+        return ChunkRenderTypeSet.union(OWN_LAYERS, material);
     }
 
     @Override
@@ -236,7 +238,8 @@ public class CopycatEncasedModel extends BakedModelWrapperWithData {
             material = be.getCopycatMaterial().get();
 
         if (material == null || material.isAir())
-            return builder.with(CopycatModelProperties.OCCLUDED_FACES, emptyOcclusion(level, pos, state));
+            return builder.with(CopycatModelProperties.MATERIAL, Blocks.AIR.defaultBlockState())
+                    .with(CopycatModelProperties.OCCLUDED_FACES, emptyOcclusion(level, pos, state));
 
         builder.with(CopycatModelProperties.MATERIAL, material);
 
